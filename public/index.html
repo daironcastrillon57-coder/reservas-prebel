@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Reservas - Prebel</title>
+  <link rel="stylesheet" href="index.css">
+</head>
+
+<body>
+  <div id="formContainer">
+      <img id="prebelLogo" src="prebel_logo.png" alt="Logotipo de Prebel Beauty Care Partners">
+      <h1>Registro de Reserva</h1>
+      <form id="formReserva">
+        <label>Nombre de quien solicita*<input name="nombre" required></label>
+        <label>Número de Reserva<input name="numero_reserva"></label>
+        <label>Telefono de contacto*<input name="telefono" required></label>  
+        <label>Rango de pedido
+        
+        <div class="inline-pair">
+            <input name="rango_pedidos_desde" placeholder="Desde" aria-label="Rango desde">
+            <input name="rango_pedidos_hasta" placeholder="Hasta" aria-label="Rango hasta">
+          </div>
+        </label>
+        <label>Correo Electrónico*<input name="email" type="email" required></label>
+        <label>Adjuntar Archivos (Word/Excel)<input name="archivo" type="file" multiple accept=".doc,.docx,.xls,.xlsx"></label>
+        <label class="etiqueta">preciona la tecla Ctrl para seleccionar múltiples archivos</label>
+        <label>Observaciones<textarea name="notas"></textarea></label>
+        <button type="submit">Enviar solicitud</button>
+      </form>
+      <div class="msg" id="msg" style="display:none;"></div>
+  </div>
+
+  <script src="index.js"></script>
+</body>
+</html>

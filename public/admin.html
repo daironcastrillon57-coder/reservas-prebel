@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Admin - Reservas Prebel</title>
+  <link rel="stylesheet" href="admin.css">
+</head>
+
+<body>
+<div class="container">
+
+    <div id="user-config">
+        <span id="username-display"></span>
+        <button id="config-icon" onclick="toggleDropdown()" aria-haspopup="true" aria-expanded="false">⚙️</button>
+
+        <div id="config-dropdown" role="menu" aria-label="Opciones de administración">
+            <button id="show-admin-creator" class="primary" style="width:100%; margin-bottom: 10px;">Crear Administrador</button>
+            <button id="show-admin-list" class="primary" style="width:100%; margin-bottom: 10px;">Ver Admins</button>
+            <button id="show-reset-password" class="primary" style="width:100%; margin-bottom: 10px;">Restaurar Contraseña</button>
+            <button id="btnLogout" class="logout">Cerrar Sesión</button>
+        </div>
+    </div>
+
+    <h1>Panel de Administración de Reservas</h1>
+
+    <!-- BOTÓN DE VOLVER -->
+    <button id="backButton">volver</button>
+
+    <div id="login-section">
+        <p id="login-prompt">Ingresa tus credenciales:</p>
+
+        <input id="username" type="text" placeholder="Usuario" style="width:15%">
+
+        <!-- LOGIN: campo contraseña con ojito -->
+        <span class="password-wrapper" style="width:15%;">
+          <input id="password" type="password" placeholder="Contraseña" style="width:100%;">
+          <!-- botón ojo (SVG) - onclick fallback añadido -->
+          <button type="button" class="toggle-pass-btn" data-target="password" aria-label="Mostrar contraseña" onclick="togglePasswordVisibility('password', this)">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M12 5C7 5 2.73 8.11 1 12c1.73 3.89 6 7 11 7s9.27-3.11 11-7C21.27 8.11 17 5 12 5z"/>
+              <circle cx="12" cy="12" r="3"/>
+            </svg>
+          </button>
+        </span>
+
+        <button id="btnLogin" class="primary">Iniciar Sesión</button>
+
+        <button id="btnRefreshReservations" class="primary" style="display:none; margin-left:10px;">Refrescar Reservas</button>
+
+        <div id="adminMessageDisplay" style="margin-top: 10px; color: red;"></div>
+    </div>
+
+    <div id="admin-management-section" style="display:none;">
+        <h3>Crear Nuevo Administrador</h3>
+        <input id="full-name" type="text" placeholder="Nombre Completo" required>
+        <input id="new-username" type="text" placeholder="Nombre de Usuario" required>
+
+        <!-- CREAR ADMIN: campo contraseña con ojito -->
+        <span class="password-wrapper" style="display:block; width:90%; margin-top:8px;">
+          <input id="new-password" type="password" placeholder="Contraseña Nueva" required>
+          <button type="button" class="toggle-pass-btn" data-target="new-password" aria-label="Mostrar contraseña" onclick="togglePasswordVisibility('new-password', this)">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M12 5C7 5 2.73 8.11 1 12c1.73 3.89 6 7 11 7s9.27-3.11 11-7C21.27 8.11 17 5 12 5z"/>
+              <circle cx="12" cy="12" r="3"/>
+            </svg>
+          </button>
+        </span>
+
+        <button id="btnCreateAdmin" class="primary">Crear Admin</button>
+        <div id="adminCreationMessageDisplay" style="margin-top: 10px;"></div>
+    </div>
+
+    <div id="admin-list-section" style="display:none;">
+        <h3>Administradores Registrados</h3>
+        <div id="adminList"></div>
+    </div>
+
+    <div id="admin-reset-password-section" style="display:none;">
+        <h3>Restaurar Contraseña de Administrador</h3>
+        <input id="reset-username" type="text" placeholder="Nombre de Usuario" required>
+
+        <!-- RESTAURAR: campo contraseña con ojito -->
+        <span class="password-wrapper" style="display:block; width:90%; margin-top:8px;">
+          <input id="reset-password" type="password" placeholder="Nueva Contraseña" required>
+          <button type="button" class="toggle-pass-btn" data-target="reset-password" aria-label="Mostrar contraseña" onclick="togglePasswordVisibility('reset-password', this)">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M12 5C7 5 2.73 8.11 1 12c1.73 3.89 6 7 11 7s9.27-3.11 11-7C21.27 8.11 17 5 12 5z"/>
+              <circle cx="12" cy="12" r="3"/>
+            </svg>
+          </button>
+        </span>
+
+        <button id="btnResetPassword" class="primary">Restaurar Contraseña</button>
+        <div id="resetPasswordMessageDisplay" style="margin-top: 10px;"></div>
+    </div>
+
+    <!-- Contenedor de pestañas -->
+    <div id="tabs" style="margin-top:20px; display: none;">
+        <div style="display:flex; gap:10px; align-items:center; margin-bottom:12px; width:100%;">
+            <div style="display:flex; gap:10px;">
+                <button id="tab-reservas" class="primary" style="background:var(--color-prebel-blue);">Reservas</button>
+                <button id="tab-pedidos" class="primary" style="background:#6c757d;">Pedidos</button>
+                <button id="tab-historial" class="primary" style="background:#6c757d;">Historial</button>
+            </div>
+            <div style="margin-left:auto; display:flex; gap:8px; align-items:center;">
+                <label for="page-size" style="color:#fff; margin-right:6px;">Mostrar:</label>
+                <select id="page-size" aria-label="Tamaño de página" style="padding:6px 8px; border-radius:4px;">
+                  <option value="10">10</option>
+                  <option value="25" selected>25</option>
+                  <option value="50">50</option>
+                  <option value="100">100</option>
+                </select>
+
+                <button id="btnRefresh" class="primary" style="background:#0A325A; padding:8px 12px; margin-left:8px;">Refrescar</button>
+
+                <!-- Botón de eliminación superior para reservas seleccionadas -->
+                <button id="deleteSelectedBtn" title="Eliminar reservas seleccionadas">Eliminar seleccionados</button>
+                <button id="cancelSelectedBtn" title="Cancelar reservas seleccionadas" style="display:none;">Cancelar seleccionados</button>
+                <!-- Botón de Confirmar -->
+                <button id="confirmSelectedBtn" title="Confirmar reservas seleccionadas" style="display:none;">Confirmar</button>
+            </div>
+        </div>
+
+        <!-- FILTROS -->
+        <div id="filters" role="region" aria-label="Filtros de reservas">
+            <input id="filter-text" class="grow" type="text" placeholder="Buscar por nombre, email, reserva, notas..." aria-label="Filtro de texto">
+            <select id="filter-estado" aria-label="Filtro por estado">
+                <option value="">Todos los estados</option>
+                <option value="confirmada">Confirmada</option>
+                <option value="pendiente">Pendiente</option>
+                <option value="cancelada">Cancelada</option>
+                <option value="separacion">Separación</option>
+            </select>
+            <label style="display:flex; gap:6px; align-items:center;">
+                Desde <input id="filter-date-from" type="date" aria-label="fecha desde">
+            </label>
+            <label style="display:flex; gap:6px; align-items:center;">
+                Hasta <input id="filter-date-to" type="date" aria-label="fecha hasta">
+            </label>
+            <button id="btnClearFilters" class="primary" style="background:#6c757d;">Limpiar</button>
+        </div>
+
+        <div id="reservasList" aria-live="polite"></div>
+        <div id="pedidosList" style="display:none;" aria-live="polite"></div>
+        <div id="historialList" style="display:none;" aria-live="polite"></div>
+    </div>
+
+    <!-- Modal para escribir observación -->
+<div id="cancelModal" style="display:none; position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); background:#fff; padding:20px; border-radius:8px; box-shadow:0 0 10px rgba(0,0,0,0.2); z-index:1000;">
+  <h3>Cancelar Reservas</h3>
+  <textarea id="cancelObservation" placeholder="Escribe una observación..." style="width:100%; height:100px; margin-bottom:10px;"></textarea>
+  <button id="confirmCancelBtn" class="primary" style="margin-right:10px;">Confirmar</button>
+  <button id="closeCancelModalBtn" class="primary" style="background:#6c757d;">Cerrar</button>
+</div>
+
+</div>
+
+<script src="admin.js"></script>
+</body>
+</html>

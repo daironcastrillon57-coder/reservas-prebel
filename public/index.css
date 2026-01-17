@@ -1,0 +1,151 @@
+:root {
+    --color-prebel-blue: #0A325A;
+    --color-accent: #007bff;
+    --color-bg-light: #f4f6f9;
+    --color-white: #ffffff;
+    --color-text-dark: #343a40;
+    --color-border: #ced4da;
+    --color-success: #28a745;
+    --font-family: 'Arial', 'Helvetica', sans-serif;
+    
+}
+
+body {
+    font-family: var(--font-family);
+    margin: 0;
+    padding: 40px 20px;
+    background-color: var(--color-bg-light);
+    color: var(--color-text-dark);
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+}
+
+#formContainer {
+    background-color: var(--color-white);
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 500px;
+    text-align: center;
+    border-top: 5px solid var(--color-prebel-blue);
+}
+
+#prebelLogo {
+    max-width: 60%;
+    height: auto;
+    margin-bottom: 20px;
+}
+
+h1 {
+    text-align: center;
+    color: var(--color-prebel-blue);
+    margin-bottom: 25px;
+    font-size: 1.6rem;
+    font-weight: 600;
+    border-bottom: 1px solid #e9ecef;
+    padding-bottom: 10px;
+    margin-top: 0;
+}
+
+label {
+    display: block;
+    text-align: left;
+    margin-top: 15px;
+    font-weight: bold;
+    color: var(--color-text-dark);
+    font-size: 0.9rem;
+}
+
+input, textarea, select {
+    width: 100%;
+    padding: 10px 12px;
+    margin-top: 5px;
+    background-color: var(--color-white);
+    color: var(--color-text-dark);
+    border: 1px solid var(--color-border);
+    border-radius: 4px;
+    box-sizing: border-box;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+input:focus, textarea:focus, select:focus {
+    border-color: var(--color-prebel-blue);
+    outline: none;
+    box-shadow: 0 0 0 0.2rem rgba(10, 50, 90, 0.25);
+}
+
+textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+/* Nuevo estilo para mostrar dos campos lado a lado */
+.inline-pair {
+    display: flex;
+    gap: 8px;
+    margin-top: 5px;
+}
+.inline-pair input {
+    width: 100%;
+    flex: 1 1 0;
+    min-width: 0; /* evita overflow en flex items */
+    padding: 10px 12px;
+    border-radius: 4px;
+    border: 1px solid var(--color-border);
+    box-sizing: border-box;
+}
+
+button {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    margin-top: 30px;
+    background-color: var(--color-prebel-blue);
+    color: var(--color-white);
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.1s;
+}
+
+button:hover {
+    background-color: #082647;
+}
+
+button:active {
+    transform: scale(0.99);
+}
+
+.msg {
+    margin-top: 20px;
+    padding: 12px;
+    border-radius: 4px;
+    text-align: center;
+    font-weight: 500;
+    font-size: 0.9rem;
+    transition: all 0.3s;
+}
+
+.msg.success {
+    color: #155724;
+    background-color: #d4edda;
+    border: 1px solid #c3e6cb;
+}
+
+.msg.error {
+    color: #721c24;
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+}
+
+label[class="etiqueta"] {
+    font-weight: normal;
+    font-size: 0.8rem;
+    color: #6c757d;
+    margin-top: 5px;
+}
